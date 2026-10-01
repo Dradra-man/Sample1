@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>こんにちは</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      padding: 48px 16px;
       font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
       background: #f7f7f5;
       color: #222;
@@ -18,10 +20,88 @@
     h1 {
       font-size: 4rem;
       font-weight: 600;
+      margin: 0 0 32px;
     }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border: 1px solid #e3e3e0;
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .hidden { display: none; }
+    label { display: block; font-size: 0.85rem; margin: 12px 0 4px; }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .row { display: flex; gap: 8px; margin-top: 16px; }
+    button {
+      flex: 1;
+      padding: 10px;
+      font-size: 0.95rem;
+      border: 1px solid #222;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+      cursor: pointer;
+    }
+    button.secondary { background: #fff; color: #222; }
+    button.small { flex: none; padding: 4px 10px; font-size: 0.8rem; }
+    .error { color: #c0392b; font-size: 0.85rem; min-height: 1.2em; margin-top: 12px; }
+    .user { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.9rem; }
+    ul { list-style: none; padding: 0; margin: 16px 0 0; }
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+      border-top: 1px solid #eee;
+      word-break: break-word;
+    }
+    .empty { color: #888; font-size: 0.9rem; padding-top: 12px; }
   </style>
 </head>
 <body>
   <h1>こんにちは</h1>
+
+  <!-- ログイン前 -->
+  <section id="auth-view" class="card hidden">
+    <form id="auth-form">
+      <label for="email">メールアドレス</label>
+      <input id="email" type="email" autocomplete="email" required>
+      <label for="password">パスワード（6文字以上）</label>
+      <input id="password" type="password" autocomplete="current-password" minlength="6" required>
+      <div class="row">
+        <button type="submit" data-action="login">ログイン</button>
+        <button type="submit" data-action="signup" class="secondary">新規登録</button>
+      </div>
+    </form>
+    <div class="row">
+      <button id="google-login" class="secondary">Googleでログイン</button>
+    </div>
+    <p id="auth-error" class="error"></p>
+  </section>
+
+  <!-- ログイン後 -->
+  <section id="app-view" class="card hidden">
+    <div class="user">
+      <span id="user-email"></span>
+      <button id="logout" class="secondary small">ログアウト</button>
+    </div>
+    <form id="memo-form" class="row">
+      <input id="memo-text" type="text" placeholder="メモを入力" maxlength="500" required>
+      <button type="submit" class="small">保存</button>
+    </form>
+    <ul id="memo-list"></ul>
+    <p id="memo-error" class="error"></p>
+  </section>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
